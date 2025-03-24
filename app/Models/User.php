@@ -3,13 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -33,7 +34,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'isAdmin'
     ];
+
+     // Ensure your model includes this function
+     public function canAccessPanel(\Filament\Panel $panel): bool
+     {
+         return $this->isAdmin === 1; // Only admins can access Filament
+     }
 
     /**
      * Get the attributes that should be cast.
@@ -48,14 +56,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function ownedProjects(): HasMany
-    {
-        return $this->hasMany(Project::class, 'user_id');
-    }
+    public function projects(): BelongsToMany{
 
-    public function assignedProjects(): BelongsToMany{
-
-        return $this->belongsToMany(Project::class)->withPivot('role')-> withTimestamps();
+        return $this->belongsToMany(Project::class, 'project_user')->withPivot('role')-> withTimestamps();
     }
 
     public function assignedTasks(): HasMany {

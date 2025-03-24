@@ -54,5 +54,6 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]);
+            // ->canAccess(fn (User $user) => $user->isAdmin === 1); // Restrict access to admins// Restrict access to admins;
     }
 }

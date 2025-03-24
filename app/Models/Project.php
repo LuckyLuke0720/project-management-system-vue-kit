@@ -15,16 +15,7 @@ class Project extends Model
     protected $fillable = [
         'title',
         'description',
-        'user_id',
     ];
-
-    /**
-     * Get the owner of the project.
-     */
-    public function owner(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
 
     /**
      * Get the users assigned to the project.
@@ -32,7 +23,7 @@ class Project extends Model
      */
     public function members(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withPivot('role')->withTimestamps();
+        return $this->belongsToMany(User::class, 'project_user')->withPivot('role')->withTimestamps();
     }
 
     /**

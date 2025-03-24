@@ -19,7 +19,6 @@ class ProjectFactory extends Factory
         return [
             'title' => fake()->realText('30'),
             'description' => fake()->realText('300'),
-            'user_id' => 1
         ];
     }
 }
