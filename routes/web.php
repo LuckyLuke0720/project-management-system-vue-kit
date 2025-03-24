@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\UserController;
@@ -10,8 +11,12 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
+Route::get('dashboard', function (Request $request) {
+
+    $user = $request->user(); //Get auth user
+    $projects = $user->projects()->get() ?? [];// '??[]' always produces an array
+
+    return Inertia::render('Dashboard', ['projects' => $projects]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::get('/', [WelcomeController::class, 'welcome'])->name('welcomeView');
@@ -24,7 +29,7 @@ Route::get('dashboard', function () {
 // Route::put('/project/{id}', [ProjectController::class,'update'])->name('project.update');
 // Route::delete('/project/{id}', [ProjectController::class, 'delete'])->name('project.delete');
 
-// Route::resource('project', ProjectController::class); #equivalent with the 7 rows above
+//Route::resource('project', ProjectController::class); #equivalent with the 7 rows above
 
 // Route::resource('user', UserController::class);
 
