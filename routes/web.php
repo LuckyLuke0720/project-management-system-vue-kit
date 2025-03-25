@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Models\Project;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\UserController;
@@ -12,12 +13,25 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('dashboard', function (Request $request) {
-
-    $user = $request->user(); //Get auth user
-    $projects = $user->projects()->get() ?? [];// '??[]' always produces an array
+    $user = $request->user();
+    
+    // Explicitly load projects with their pivot information
+    $projects = $user->projects()
+        ->select('projects.id', 'projects.title', 'projects.description')
+        ->with('tasks') 
+        ->get();
 
     return Inertia::render('Dashboard', ['projects' => $projects]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/projects/{project}', function (Project $project) {
+    
+    $project->load('tasks'); // Load tasks with the project
+    
+    return response()->json($project);
+})->middleware(['auth', 'verified'])->name('project.show');
+
+
 
 // Route::get('/', [WelcomeController::class, 'welcome'])->name('welcomeView');
 
