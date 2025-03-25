@@ -18,7 +18,7 @@ class Task extends Model
         'title',
         'description',
         'due_date',
-        'priority',
+        'order',
         'status',
         'project_id',
         'assignee_user_id'
@@ -31,7 +31,7 @@ class Task extends Model
      */
     protected $casts = [
         'due_date' => 'date',
-        'priority' => 'integer',
+        'order' => 'integer',
         'status' => 'string'
     ];
 

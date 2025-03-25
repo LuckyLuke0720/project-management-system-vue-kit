@@ -24,7 +24,7 @@ class TaskSeeder extends Seeder
                 'title' => 'Design Project Architecture',
                 'description' => 'Create a comprehensive architectural design for the project, including system components and interactions.',
                 'due_date' => now()->addDays(14),
-                'priority' => 3,
+                'order' => 1,
                 'status' => 'To Do',
                 'project_id' => $project->id,
                 'assignee_user_id' => $user1->id
@@ -33,7 +33,7 @@ class TaskSeeder extends Seeder
                 'title' => 'Implement User Authentication',
                 'description' => 'Develop robust user authentication system with role-based access control.',
                 'due_date' => now()->addDays(10),
-                'priority' => 4,
+                'order' => 2,
                 'status' => 'In Progress',
                 'project_id' => $project->id,
                 'assignee_user_id' => $user2->id
@@ -42,7 +42,7 @@ class TaskSeeder extends Seeder
                 'title' => 'Create Database Schema',
                 'description' => 'Finalize and document the database schema for all project entities.',
                 'due_date' => now()->addDays(7),
-                'priority' => 2,
+                'order' => 3,
                 'status' => 'Under Review',
                 'project_id' => $project->id,
                 'assignee_user_id' => $user1->id
@@ -51,7 +51,7 @@ class TaskSeeder extends Seeder
                 'title' => 'Frontend Component Design',
                 'description' => 'Design and prototype key frontend components for the application.',
                 'due_date' => now()->addDays(21),
-                'priority' => 1,
+                'order' => 4,
                 'status' => 'Completed',
                 'project_id' => $project->id,
                 'assignee_user_id' => $user2->id

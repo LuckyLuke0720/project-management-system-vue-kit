@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,17 @@ class TaskController extends Controller
     public function index()
     {
         //
+    }
+
+    public function updateTaskOrder(Request $request, Project $project){
+
+        $taskOrders = $request->input('task_order');
+
+        foreach ($taskOrders as $taskOrderData){
+            Task::where('id', $taskOrderData['id'])->update(['order' => $taskOrderData['order']]);
+        }
+
+        return response()->json(['message'=> 'Task order updated!']);
     }
 
     /**

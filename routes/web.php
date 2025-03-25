@@ -8,10 +8,12 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\UserController;
 use Inertia\Inertia;
 
+//first page after booting server
 Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
+//dashboard appears post user auth. We fetch the project data associated with the user
 Route::get('dashboard', function (Request $request) {
     $user = $request->user();
     
@@ -24,6 +26,7 @@ Route::get('dashboard', function (Request $request) {
     return Inertia::render('Dashboard', ['projects' => $projects]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+//When seeing more details abt project, we fetch and pass the tasks associated
 Route::get('/projects/{project}', function (Project $project) {
     
     $project->load('tasks'); // Load tasks with the project
@@ -31,6 +34,8 @@ Route::get('/projects/{project}', function (Project $project) {
     return response()->json($project);
 })->middleware(['auth', 'verified'])->name('project.show');
 
+//When the tasks inside a project are updated, we update  task's order attribute inside the database
+Route::post('/projects/{project}/update-task-order', [ProjectController::class, 'updateTaskOrder']);
 
 
 // Route::get('/', [WelcomeController::class, 'welcome'])->name('welcomeView');

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description');
             $table->date('due_date');
-            $table->integer('priority'); #ranked 1 to 5
+            $table->integer('order'); #drag-and-drop order also reflects the priority. Ranges of task placing will affect visual priority marking
             $table->enum('status', ['To Do', 'In Progress', 'Under Review', 'Completed'])->default('To Do');
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
             $table->foreignId('assignee_user_id')->constrained('users')->onDelete('cascade');
