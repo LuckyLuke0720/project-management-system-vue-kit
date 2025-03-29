@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\User;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\UserController;
@@ -36,7 +37,6 @@ Route::get('/projects/{project}', function (Project $project) {
 
 //When the tasks inside a project are updated, we update  task's order attribute inside the database
 Route::post('/projects/{project}/update-task-order', [ProjectController::class, 'updateTaskOrder']);
-
 
 // Route::get('/', [WelcomeController::class, 'welcome'])->name('welcomeView');
 

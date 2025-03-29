@@ -33,4 +33,14 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    /**
+     * Link to the ProjectUser many-to-many model.
+     * Used for assigning users to projects in CRUD operations.
+     * @return HasMany<ProjectUser, Project>
+     */
+    public function projectUsers(): HasMany
+    {
+        return $this->hasMany(ProjectUser::class);
+    }
 }

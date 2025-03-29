@@ -35,9 +35,12 @@ class UserResource extends Resource
             ->columns([
                 TextColumn::make('name'),
                 TextColumn::make('email'),
-                TextColumn::make('password'),
-                
-            ])
+                TextColumn::make('email_verified_at')
+                    ->label('Email Verified')
+                    ->formatStateUsing(fn ($state) => $state ? 'Verified' : 'Not Verified')
+                    ->badge()
+                    ->color(fn ($state) => $state ? 'success' : 'danger'),
+                        ])
             ->filters([
                 //
             ])
