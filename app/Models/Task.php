@@ -50,4 +50,16 @@ class Task extends Model
     {
         return $this->belongsTo(User::class, 'assignee_user_id');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($task) {
+            
+            // set the order as max + 1 (patchwork, should probably set order as nullable)
+            $maxOrder = self::where('project_id', $task->project_id)->max('order');
+            $task->order = $maxOrder ? $maxOrder + 1 : 1;
+        });
+    }
 }
