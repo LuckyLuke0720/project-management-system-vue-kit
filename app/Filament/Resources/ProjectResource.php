@@ -12,7 +12,7 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Support\Enums\Alignment;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Forms\Components\Select;
@@ -53,11 +53,11 @@ class ProjectResource extends Resource
                     ])
                     ->live()
                     ->addActionLabel('Add user to project')
+                    ->addActionAlignment(Alignment::Start)
                     ->columns(2)
                     ->afterStateUpdated(fn (Set $set) => $set('assignee_user_id', null)), // reset assign field on change to not enable AssignTo early (does not seem to work)
 
-                #TODO: finish implementing and bugfixing adding modifying a task
-                Repeater::make('tasks')
+                    Repeater::make('tasks')
                     ->relationship()
                     ->schema([
                         TextInput::make('title')
@@ -150,6 +150,7 @@ class ProjectResource extends Resource
                             ->hint(fn (Get $get) => empty($get('../../projectUsers')) ? '⚠ No users assigned to this project. Please add users first.' : null)
                     ])
                     ->addActionLabel('Add task to project')
+                    ->addActionAlignment(Alignment::Start)
                     ->columnSpanFull(),
                         ]);
     }

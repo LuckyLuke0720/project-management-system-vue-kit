@@ -5,8 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentsController;
 use Inertia\Inertia;
 
 //first page after booting server
@@ -18,7 +17,6 @@ Route::get('/', function () {
 Route::get('dashboard', function (Request $request) {
     $user = $request->user();
     
-    // Explicitly load projects with their pivot information
     $projects = $user->projects()
         ->select('projects.id', 'projects.title', 'projects.description')
         ->with('tasks') 
@@ -38,19 +36,14 @@ Route::get('/projects/{project}', function (Project $project) {
 //When the tasks inside a project are updated, we update  task's order attribute inside the database
 Route::post('/projects/{project}/update-task-order', [ProjectController::class, 'updateTaskOrder']);
 
-// Route::get('/', [WelcomeController::class, 'welcome'])->name('welcomeView');
+//Get and post comments
+Route::get('/tasks/{taskId}/comments', [CommentsController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('task.comments.index');
 
-// Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
-// Route::get('/project/create', [ProjectController::class, 'create'])->name('project.create');
-// Route::post('/project', [ProjectController::class, 'store'])->name('project.store');
-// Route::get('/project/{id}', [ProjectController::class, 'show'])-> name('project.show');
-// Route::get('/project/{id}/edit', [ProjectController::class, 'edit'])-> name('project.edit');
-// Route::put('/project/{id}', [ProjectController::class,'update'])->name('project.update');
-// Route::delete('/project/{id}', [ProjectController::class, 'delete'])->name('project.delete');
-
-//Route::resource('project', ProjectController::class); #equivalent with the 7 rows above
-
-// Route::resource('user', UserController::class);
+Route::post('/tasks/{taskId}/comments', [CommentsController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('task.comments.store');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

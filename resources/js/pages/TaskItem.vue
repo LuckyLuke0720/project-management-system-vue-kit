@@ -16,7 +16,7 @@ interface TaskItemProps {
 }
 
 const passedProps = defineProps<TaskItemProps>();
-// const emit = defineEmits(['task-reorder']);
+const emit = defineEmits(['task-click']);
 
 // Status color mapping
 const statusColors = {
@@ -25,16 +25,21 @@ const statusColors = {
   'Under Review': 'bg-purple-50 border-purple-200',
   'Completed': 'bg-green-50 border-green-200'
 };
+
+const handleTaskClick = () => {
+  emit('task-click', passedProps.task);
+};
 </script>
 
 <template>
-<div :class="['w-full p-4 rounded-lg border transition-all duration-300 hover:shadow-md', statusColors[task.status] || 'bg-gray-50']">
+<div :class="['w-full p-4 rounded-lg border transition-all duration-300 hover:shadow-md', statusColors[task.status] || 'bg-gray-50']" @click="handleTaskClick">
     <div class="flex justify-between items-center mb-2">
       <h3 class="font-semibold text-lg text-black">{{ passedProps.task.title }}</h3>
       <span 
         v-if="canReorder" 
         class="cursor-move black hover:text-gray-600"
-        title="Drag to reorder">
+        title="Drag to reorder"
+        @click.stop>
         ⋮⋮
       </span>
     </div>

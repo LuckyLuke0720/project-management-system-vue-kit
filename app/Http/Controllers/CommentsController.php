@@ -4,15 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Comments;
 use Illuminate\Http\Request;
+use App\Models\Task;
+use Auth;
 
 class CommentsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get all comments for a specific task.
+     *
+     * @param  int  $taskId
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($taskId)
     {
-        //
+
+        $comments = Comments::where('task_id', $taskId)
+            ->with('user:id,name') 
+            ->orderBy('created_at', 'asc')
+            ->get();
+            
+        return response()->json($comments);
     }
 
     /**
@@ -26,9 +37,22 @@ class CommentsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $taskId)
     {
-        //
+        
+        $validated = $request->validate([
+            'content' => 'required|string'
+        ]);
+        
+        $comment = new Comments();
+        $comment->content = $validated['content'];
+        $comment->task_id = $taskId;
+        $comment->user_id = Auth::id();
+        $comment->save();
+        
+        $comment->load('user:id,name');
+        
+        return response()->json($comment, 201);
     }
 
     /**
