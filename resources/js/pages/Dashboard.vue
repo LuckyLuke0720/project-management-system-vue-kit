@@ -10,14 +10,14 @@ interface Project {
     description: string;
 }
 
-const props = defineProps<{ projects: Project[] }>(); 
+const props = defineProps<{ projects: Project[], username: string }>(); 
 
 const selectedProjectId = ref<number | null>(null);
 
 const isLoading = ref(false);
 
 const openProjectDetails = (projectId: number) => {
-    selectedProjectId.value = projectId; // Set the project ID
+    selectedProjectId.value = projectId; // set the selected project ID on click
 };
 
 const closeProjectDetails = () => {
@@ -34,12 +34,16 @@ const breadcrumbs = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="p-4">
-            <h1 class="text-2xl font-bold mb-4">Your Projects</h1>
+            <span class="flex items-baseline justify-between mb-4 px-4">
+                <h1 class="text-2xl font-bold mb-4">Your Projects</h1>
+                <h2 class="text-xl font-bold mb-4">Welcome, {{ username }}</h2>
+            </span>
+            
 
             <div v-if="props.projects && props.projects.length" class="grid auto-rows-min gap-4 md:grid-cols-3">
                 <button v-for="project in projects" 
                 :key="project.id" 
-                class="p-4 border rounded-lg shadow w-full text-left cursor-pointer hover:shadow-lg transition"
+                class="p-4 border rounded-lg shadow w-full text-left cursor-pointer hover:shadow-lg transition hover:border-white"
                 @click="openProjectDetails(project.id)">
                     <h2 class="text-xl font-semibold">{{ project.title }}</h2>
                     <p class="text-gray-500">{{ project.description }}</p>

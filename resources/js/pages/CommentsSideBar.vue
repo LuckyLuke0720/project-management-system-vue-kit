@@ -82,7 +82,7 @@ watch(() => props.taskId, fetchComments);
   <div class="h-full flex flex-col shadow-lg">
     <div class="p-4 border-b border-gray-700 flex justify-between items-center bg-black-100">
       <h2 class="text-xl text-white font-semibold">Comments: {{ taskTitle }}</h2>
-      <button @click="closeSidebar" class="text-red-500">
+      <button @click="closeSidebar" class="text-red-500  hover:bg-red-500/20 rounded-full p-1 transition-colors duration-300 ease-in-out">
         <span>×</span>
       </button>
     </div>

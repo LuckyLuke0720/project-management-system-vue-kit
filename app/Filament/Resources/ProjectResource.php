@@ -180,7 +180,7 @@ class ProjectResource extends Resource
                 ->getStateUsing(fn (Project $record): int => $record->members()->count())//no of attached users
                 ->sortable(),
         ])
-        ->defaultSort('id', 'asc')
+        // ->defaultSort('tasks_count', 'asc')
         ->striped() 
         ->paginated(10); 
 }
