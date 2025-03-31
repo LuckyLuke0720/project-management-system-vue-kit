@@ -64,4 +64,9 @@ class User extends Authenticatable implements FilamentUser
     public function assignedTasks(): HasMany {
         return $this->hasMany(Task::class, 'assignee_user_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comments::class);
+    }
 }

@@ -55,7 +55,7 @@ class ProjectResource extends Resource
                     ->addActionLabel('Add user to project')
                     ->addActionAlignment(Alignment::Start)
                     ->columns(2)
-                    ->afterStateUpdated(fn (Set $set) => $set('assignee_user_id', null)), // reset assign field on change to not enable AssignTo early (does not seem to work)
+                    ->afterStateUpdated(fn (Set $set) => $set('assignee_user_id', null)),
 
                     Repeater::make('tasks')
                     ->relationship()

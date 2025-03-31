@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
-use Filament\Forms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -19,7 +17,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {
@@ -33,14 +31,11 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                TextColumn::make('email'),
-                // TextColumn::make('email_verified_at')
-                //     ->label('Email Verified')
-                //     ->formatStateUsing(fn ($state) => $state ? 'Verified' : 'Not Verified')
-                //     // ->badge()
-                //     // ->color(fn ($state) => $state ? 'success' : 'danger'),
-                    ])
+                TextColumn::make('name')
+                ->searchable(),
+                TextColumn::make('email')
+                ->searchable(),
+            ])
             ->filters([
                 //
             ])

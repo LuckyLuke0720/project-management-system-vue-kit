@@ -36,7 +36,7 @@ const error = ref<string | null>(null);
 const selectedTask = ref<Task | null>(null);
 const showCommentsSidebar = ref(false);
 const showCreateTaskForm = ref(false);
-const currentUserId = ref<number>(0);
+// const currentUserId = ref<number>(0);
 const statusUpdateInProgress = ref(false)
 const users = ref<{ id: number; name: string }[]>([]);
 
@@ -49,18 +49,22 @@ const canReorderTasks = computed(() => {
     return project.value?.pivot?.role === ('Owner');
 });
 
-const canModifyTaskStatus = (task: Task) => {
-    console.log('Checking permissions:', {
-    projectRole: project.value?.pivot?.role,
-    taskAssigneeId: task.assignee_user_id,
-    currentUserId: currentUserId.value
-  });
-  return (
-    project.value?.pivot?.role === 'Owner' ||
-    project.value?.pivot?.role === 'Admin' ||
-    task.assignee_user_id === currentUserId.value
-  );
-};
+/**
+ * This method was in place and passed as a parameter in TaskItem.
+ * It was removed because I considered that ALL users should modify the status, not only the Owners.
+ */
+// const canModifyTaskStatus = (task: Task) => {
+//     console.log('Checking permissions:', {
+//     projectRole: project.value?.pivot?.role,
+//     taskAssigneeId: task.assignee_user_id,
+//     currentUserId: currentUserId.value
+//   });
+//   return (
+//     project.value?.pivot?.role === 'Owner' ||
+//     project.value?.pivot?.role === 'Admin' ||
+//     task.assignee_user_id === currentUserId.value
+//   );
+// };
 
 onMounted(async () => {
     try {
@@ -133,22 +137,21 @@ const handleTaskCreated = (newTask: Task) => {
 };
 
 const handleStatusChange = async (taskId: number, newStatus: 'To Do' | 'In Progress' | 'Under Review' | 'Completed') => {
-  // Prevent multiple concurrent status updates
-  if (statusUpdateInProgress.value) return;
+
+    if (statusUpdateInProgress.value) return;
   
   statusUpdateInProgress.value = true;
   
   console.log(`Updating task ${taskId} status to ${newStatus}`);
 
   try {
-    // patch the task status
+    // patch task status
     const response = await axios.patch(`/tasks/${taskId}`, {
       status: newStatus
     });
     
     console.log('Status update response:', response);
 
-    // Update in the local state if request was successful
     if (project.value && response.status === 200) {
       
       const taskIndex = project.value.tasks.findIndex(t => t.id === taskId);
@@ -221,7 +224,6 @@ const handleStatusChange = async (taskId: number, newStatus: 'To Do' | 'In Progr
                                     <TaskItem 
                                         :task="task" 
                                         :can-reorder="canReorderTasks"
-                                        :can-modify-status="canModifyTaskStatus(task)" 
                                         class="w-full" 
                                         @task-click="handleTaskClick"
                                         @status-change="handleStatusChange"

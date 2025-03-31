@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
 
-//TODO: see how to pass the correct user so that assignee is not NULL
 interface Task {
   id: number;
   title: string;
@@ -18,7 +17,6 @@ interface Task {
 interface TaskItemProps {
   task: Task;
   canReorder: boolean;
-  canModifyStatus: boolean;
 }
 
 const passedProps = defineProps<TaskItemProps>();
@@ -59,9 +57,7 @@ const closeStatusModal = () => {
 
 // Handle mouse enter on status badge
 const handleStatusMouseEnter = () => {
-  if (passedProps.canModifyStatus) {
     isStatusHovered.value = true;
-  }
 };
 
 // Handle mouse leave on status badge
@@ -115,7 +111,7 @@ const handleStatusMouseLeave = () => {
         {{ passedProps.task.status }}
       </span>
       <button 
-          v-if="isStatusHovered && canModifyStatus && !showStatusModal"
+          v-if="isStatusHovered && !showStatusModal"
           @click="toggleStatusModal"
           class="absolute inset-0 flex items-center justify-center bg-red-900 bg-opacity-100 rounded-full text-xs text-white">
           Modify
