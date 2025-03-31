@@ -65,3 +65,7 @@ The project is based on the Laravel-Vue starter kit, including Filament as an ad
 
 4. A project and tasks can ONLY be added via the admin page. Comments can be added by anyone, as well as modifying the task's priority.
 
+5. Live notifications and attachments to comments could not be developed due to lack of time. The database supports attachments, however.
+
+I apologise for all these lacking features. I hope that the structure, way of working, and implemented features show my qualities, potential to learn fast and capability to integrate in a team with different roles. Enjoy the app!
+
