@@ -207,7 +207,8 @@ const handleStatusChange = async (taskId: number, newStatus: 'To Do' | 'In Progr
                     <div class="flex justify-between items-center mb-4 sticky top-0 bg-black z-10 pb-2">
                         <h2 class="text-xl font-semibold ">Tasks</h2>
                         <button v-if="canCreateTask" @click="toggleCreateTaskForm"
-                            class="px-4 py-2 bg-black-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300">
+                            class="px-4 py-2 bg-black-500 text-white rounded-lg transition-colors duration-300"
+                            :class="showCreateTaskForm ? 'hover:bg-red-600' : 'hover:bg-blue-600'">
                             {{ showCreateTaskForm ? 'Cancel' : 'Create Task' }}
                         </button>
                     </div>
