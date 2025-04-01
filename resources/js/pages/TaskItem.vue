@@ -50,17 +50,14 @@ const toggleStatusModal = (event: Event) => {
   showStatusModal.value = !showStatusModal.value;
 };
 
-// Close modal when clicking outside
 const closeStatusModal = () => {
   showStatusModal.value = false;
 };
 
-// Handle mouse enter on status badge
 const handleStatusMouseEnter = () => {
     isStatusHovered.value = true;
 };
 
-// Handle mouse leave on status badge
 const handleStatusMouseLeave = () => {
   isStatusHovered.value = false;
 };

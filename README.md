@@ -40,7 +40,7 @@ The welcome page only prompts users to register or log in. Once they do, they ar
 
 6. A user that has the role of an Owner in a project can also create Tasks. This button will appear if a user has the required role. Tapping that button will redirect a user to a form to create a form. By filling in the required data, he can create a new task and assign it to someone part of the same project.
 
-7. The admin user can also log in to the filamentPHP admin page. It can be found at http://127.0.0.1:8000/admin
+7. The admin user can also log in to the filamentPHP admin page. It can be found at http://127.0.0.1:8000/admin.
 
 8. Once the admin logs in, he can find a few informational widgets on the admin dashboard, as well as 3 other management tables: Projects, Users, Comments
 
@@ -57,7 +57,7 @@ The project is based on the Laravel-Vue starter kit, including Filament as an ad
 
 ## Notes and explanations
 
-1. From the start boot, sometimes, if a user has been logged in before, then the user tries to connect to the admin page, it will be forbidden. The solution is to log in to the normal dashboard with the admin account, log out, then log in to the admin page, or try to access it directly to http://127.0.0.1:8000/admin after logging in to the normal dashboard. That way, the last user is cached and the admin can access the admin page.
+1. Sometimes, if a non-admin user has been logged in before, then the user tries to connect to the admin page directly from the dashboard (by typing http://127.0.0.1:8000/admin) with the normal user logged in, it will be forbidden. The solution is to log out of the dashboard with the normal user account, then try to access the admin page. That way, the last user cache is emptied and the admin can access the admin page. The admin can also access the page directly if he is logged in to the normal user dashboard (at http://127.0.0.1:8000/dashboard) and then he switches directly to the admin page, without logging in.
 
 2. The design of the app has been done while running the system in Dark mode, so the coloring might be conflicting in Light mode. Recommended to run in Dark mode settings.
 
