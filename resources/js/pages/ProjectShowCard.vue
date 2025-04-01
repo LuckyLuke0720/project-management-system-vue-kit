@@ -69,10 +69,10 @@ const canReorderTasks = computed(() => {
 onMounted(async () => {
     try {
         const response = await axios.get(`/projects/${props.projectId}`);
-        // const userResponse = await axios.get(`/projects/${props.projectId}/users`)
+        const userResponse = await axios.get(`/projects/${props.projectId}/users`)
 
-        //Get users associated with the project
-        // users.value = userResponse.data;
+        // Get users associated with the project
+        users.value = userResponse.data;
 
         // Set the project data from the response
         project.value = response.data;
@@ -213,7 +213,7 @@ const handleStatusChange = async (taskId: number, newStatus: 'To Do' | 'In Progr
                     </div>
 
                     <!-- Create Task Form -->
-                    <div v-if="showCreateTaskForm && canCreateTask" class="mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                    <div v-if="showCreateTaskForm && canCreateTask" class="mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50 max-h-[50vh] overflow-y-auto">
                         <CreateTaskForm :project-id="projectId" :users="users" @task-created="handleTaskCreated" @cancel="toggleCreateTaskForm" />
                     </div>
 

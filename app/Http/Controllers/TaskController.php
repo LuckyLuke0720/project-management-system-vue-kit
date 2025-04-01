@@ -38,9 +38,22 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        //
+        // validation
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'due_date' => 'nullable|date',
+            'status' => 'required|string|in:To Do,In Progress,Under Review,Completed',
+            'assignee_user_id' => 'nullable|exists:users,id'
+        ]);
+    
+        $task = $project->tasks()->create($validated);
+    
+        $task->load('assignee');
+    
+        return response()->json($task);
     }
 
     /**

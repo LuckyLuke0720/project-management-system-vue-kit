@@ -48,19 +48,22 @@ Route::get('/projects/{project}', function (Request $request, Project $project) 
 })->middleware(['auth', 'verified'])->name('project.show');
 
 // //Fetch users associated with a project
-// Route::get('/projects/{project}/users', function(Request $request, Project $project) {
+Route::get('/projects/{project}/users', function(Request $request, Project $project) {
     
-//     $user = $request->user();
-//     $userProject = $user->projects()->find($project->id);
-
-//     if( !$userProject ) {
-//         return response()->json(['error' => 'Unauthorized'], 403);
-//     }
-
-//     $users = $project->users()->select('id', 'name')->get();
-
-//     return response()->json($users);
-// })->middleware(['auth', 'verified']);
+    $user = $request->user();
+    
+    // Check if user has access to this project using the projects() relationship in User model
+    $userProject = $user->projects()->where('projects.id', $project->id)->first();
+    
+    if (!$userProject) {
+        return response()->json(['error' => 'Unauthorized'], 403);
+    }
+    
+    // Get all users associated with this project using the members() relationship in Project model
+    $users = $project->members()->select('users.id', 'users.name')->get();
+    
+    return response()->json($users);
+})->middleware(['auth', 'verified']);
 
 //When the tasks inside a project are updated, we update  task's order attribute inside the database
 Route::post('/projects/{project}/update-task-order', [ProjectController::class, 'updateTaskOrder']);
@@ -80,6 +83,11 @@ Route::get('/users', [UserController::class, 'index']);
 Route::patch('/tasks/{taskId}', [TaskController::class, 'update'])
     ->middleware(['auth', 'verified'])
     ->name('task.update');
+
+//Create a new task on a project
+Route::post('/projects/{project}/tasks', [TaskController::class, 'store'])
+    ->middleware(['auth', 'verified'])
+    ->name('project.tasks.store');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

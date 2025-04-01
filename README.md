@@ -38,7 +38,7 @@ The welcome page only prompts users to register or log in. Once they do, they ar
 
 5. Hovering above a task's priority will allow the user to modify their priority level, among the possible choices: To Do, In Progress, Under Review, Completed,
 
-6. A user that has the role of an Owner in a project can also create Tasks. This button will appear if a user has the required role. Tapping that button will redirect a user to a form to create a form.
+6. A user that has the role of an Owner in a project can also create Tasks. This button will appear if a user has the required role. Tapping that button will redirect a user to a form to create a form. By filling in the required data, he can create a new task and assign it to someone part of the same project.
 
 7. The admin user can also log in to the filamentPHP admin page. It can be found at http://127.0.0.1:8000/admin
 
@@ -61,7 +61,9 @@ The project is based on the Laravel-Vue starter kit, including Filament as an ad
 
 2. The design of the app has been done while running the system in Dark mode, so the coloring might be conflicting in Light mode. Recommended to run in Dark mode settings.
 
-3. Adding a task via the dashboard UI (for Owners of a project) is not functional. A bug that does not allow the rest of the users part of the project to be passed on to the CreateTaskForm without issues makes the process impossible (as a Task HAS to have a user).
+3. (FIXED 1 Apr. 16:00: A user can now add a task via the dashboard UI!)
+
+Adding a task via the dashboard UI (for Owners of a project) is not functional. A bug that does not allow the rest of the users part of the project to be passed on to the CreateTaskForm without issues makes the process impossible (as a Task HAS to have a user).
 
 4. A project and tasks can ONLY be added via the admin page. Comments can be added by anyone, as well as modifying the task's priority.
 
